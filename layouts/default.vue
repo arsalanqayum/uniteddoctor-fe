@@ -30,7 +30,9 @@
       this.$toast.success(data.description)
       this.$store.commit("SET_NOTIFICATIONS",data);
     });
+    if(this.$store.state && this.$store.state.auth && this.$store.state.auth.user){
     this.getNotifications();
+  }
   },
   methods:{
     getNotifications(){

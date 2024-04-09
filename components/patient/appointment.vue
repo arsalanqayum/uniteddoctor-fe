@@ -27,7 +27,7 @@
       </template>
         <template v-slot:item.actions="{ item }">
           <div style="display: flex; gap: 4px;">
-          <v-btn v-if="item.google_meet_link" @click="joinMeeting(item.google_meet_link)" x-small outlined color="blue">Join</v-btn>
+          <v-btn v-if="item.google_meet_link && isDoctor && item.status == 'accepted'" @click="joinMeeting(item.google_meet_link)" x-small outlined color="blue">Join</v-btn>
           <v-btn v-if="isDoctor && item.status == 'accepted'" @click="updateStatus(item.id, 'completed')" x-small outlined color="green">Complete</v-btn>
           <v-btn v-if="isDoctor && item.status == 'pending'" @click="updateStatus(item.id, 'accepted')" x-small outlined color="primary">Accept</v-btn>
           <v-btn v-if="isDoctor && item.status == 'pending'" @click="updateStatus(item.id, 'rejected')" x-small outlined color="red">Cancel</v-btn>

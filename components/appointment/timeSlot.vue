@@ -197,7 +197,11 @@ export default {
 
     console.log(reqPayload);
    
-    this.bookAppointment(reqPayload);
+    if(this.$store.state && this.$store.state.auth && this.$store.state.auth.user.user_type!='doctor'){
+      this.bookAppointment(reqPayload);
+      }else{
+        this.$toast.error("please create patient account to book an appointment")
+      }
   } else {
     // Handle the case where no availability is found for the selected day of the week
     console.log('No availability found for the selected day of the week:', selectedDayOfWeek);
@@ -219,8 +223,11 @@ export default {
       };
 
       console.log('Using next available day:', reqPayload);
-      
+      if(this.$store.state && this.$store.state.auth && this.$store.state.auth.user.user_type!='doctor'){
       this.bookAppointment(reqPayload);
+    }else{
+        this.$toast.error("please create patient account to book an appointment")
+      }
     } else {
       console.log('No further availability found.');
       // Handle the case where no further availability is found

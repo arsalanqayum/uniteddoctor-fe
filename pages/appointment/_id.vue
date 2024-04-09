@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted(){
-    this.$axios.get(`doctor/availibility/${this.$route.params.id}`).then((response)=>{
+    this.$axios.get(`available/${this.$route.params.id}`).then((response)=>{
        this.data =response.data.data;
     })
   },
