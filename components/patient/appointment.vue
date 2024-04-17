@@ -27,6 +27,7 @@
       </template>
         <template v-slot:item.actions="{ item }">
           <div style="display: flex; gap: 4px;">
+            <v-btn v-if="item.google_meet_link && isPatient && item.status == 'accepted'" @click="joinMeeting(item.google_meet_link)" x-small outlined color="blue">Join</v-btn>   
           <v-btn v-if="item.google_meet_link && isDoctor && item.status == 'accepted'" @click="joinMeeting(item.google_meet_link)" x-small outlined color="blue">Join</v-btn>
           <v-btn v-if="isDoctor && item.status == 'accepted'" @click="updateStatus(item.id, 'completed')" x-small outlined color="green">Complete</v-btn>
           <v-btn v-if="isDoctor && item.status == 'pending'" @click="updateStatus(item.id, 'accepted')" x-small outlined color="primary">Accept</v-btn>
@@ -75,6 +76,9 @@ export default {
   computed: {
     isDoctor(){
       return this.$store.state.auth.user.user_type == 'doctor' ? true :false
+    },
+    isPatient(){
+      return this.$store.state.auth.user.user_type == 'patient' ? true :false
     },
     numberOfPages() {
       return Math.ceil(this.items.length / this.itemsPerPage)
