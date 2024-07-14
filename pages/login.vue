@@ -139,6 +139,10 @@ this.$axios.post(`verify`,{email:this.$route.query.email}).then((response)=>{
         this.$store.commit('SET_USER_DETAILS', response.data.data)
         this.$router.push('/dashboard');
       }).catch((error)=>{
+        if(error.response.status==400){
+          console.log(error.response.data)
+          this.$toast.error(error.response.data.message);
+        }
         if(error.response.status==401){
           this.$toast.error("Invalid credential");
         }

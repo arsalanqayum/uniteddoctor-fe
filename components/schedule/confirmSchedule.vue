@@ -3,8 +3,8 @@
     <v-card-text>
       <div>
         <h4 class="my-4">Type : {{ schedules.type }}</h4>
-        <h4 v-if="schedules.type == 'onsite'" class="my-3">
-          Location : {{ schedules.location }}
+        <h4 v-if="schedules.type == 'onsite' && schedules.location" class="my-3">
+          Location : {{ schedules.location.name }}
         </h4>
         <v-simple-table>
           <thead>

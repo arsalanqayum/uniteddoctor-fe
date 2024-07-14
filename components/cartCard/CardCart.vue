@@ -17,23 +17,26 @@
               <v-card v-for="(schedule, index) in available" :key="index" class="mx-auto" max-width="100%" outlined
                 @click="$router.push(`/appointment/${schedule.id}`)">
 
-                <!-- <v-card-item>
+             <v-card-item>
             <div class="pa-lg-2">
               <div class="text-overline mb-1">
-                {{ variant }}
+               
               </div>
-              <div class="text-h6 mb-1">
+              <div v-if="schedule && !schedule.location && schedule.type=='remote'" class="text-h6 mb-1">
                 <b
-                  >{{ schedule.location }} ({{
-                    schedule.type == 'onsite' ? 'Mardam' : 'online'
-                  }})</b
+                  >Remote</b
+                >
+              </div>
+              <div v-else class="text-h6 mb-1">
+                <b
+                  >{{schedule.location}} (onsite)</b
                 >
               </div>
               <div
                 style="display: flex; justify-content: space-between"
                 class="text-caption"
               >
-                <div v-if="schedule.available">
+                <div v-if="schedule.available.length>0">
                   <small style="color: green"
                     >Available {{ schedule.available[0].date }} to
                     {{
@@ -48,7 +51,7 @@
                 </div>
               </div>
             </div>
-          </v-card-item> -->
+          </v-card-item>  
 
                 <v-card-actions class="card-footer">
                   <small>{{ schedule.offer_label }}</small>
@@ -75,7 +78,7 @@
             </p>
 
             <p class="mb-0 grey--text text--darken-1">
-              <span v-for="(education, index) in speciality" :key="index">{{ education.specialization.name }},</span>
+              <!-- <span v-for="(education, index) in speciality" :key="index">{{ education.specialization.name }},</span> -->
             </p>
             <div class="mb-2">
           <template v-for="i in 5">
@@ -129,7 +132,7 @@
                 </div>
                 <div class="text-h6 mb-1">
                   <b>{{ schedule.location }} ({{
-                    schedule.type == 'onsite' ? 'Mardam' : 'online'
+                    schedule.type == 'onsite' ? 'OnSite' : 'online'
                   }})</b>
                 </div>
                 <div style="display: flex; justify-content: space-between" class="text-caption">

@@ -196,7 +196,10 @@ export default {
     };
 
     console.log(reqPayload);
-   
+   if(this.$store.state && this.$store.state.auth && !this.$store.state.auth.user){
+    this.$toast.error("please login to complete booking an appointment");
+    return false
+   }
     if(this.$store.state && this.$store.state.auth && this.$store.state.auth.user.user_type!='doctor'){
       this.bookAppointment(reqPayload);
       }else{

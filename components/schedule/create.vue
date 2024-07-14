@@ -72,6 +72,9 @@ export default {
 .v-stepper-content p {
   margin-bottom: 10px;
 }
+.v-application--is-ltr .theme--light.v-stepper--vertical .v-stepper__content:not(:last-child) {
+    border-left: 1px solid rgb(0 0 0 / 0%) !important;
+}
 
 .navigation-buttons {
   display: flex;

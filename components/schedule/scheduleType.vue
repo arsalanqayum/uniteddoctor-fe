@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4" outlined>
+  <div class="pa-4" outlined>
     <v-form ref="schedule" @submit.prevent="next">
       <v-card-title class="headline mb-3">Schedule Details</v-card-title>
 
@@ -10,7 +10,9 @@
 
       <v-row>
         <v-col cols="12" md="6" v-if="type == 'onsite'">
-          <v-text-field outlined label="Location" :rules="[(v) => !!v || 'Location is required']" v-model="location" placeholder="Enter Hospital Name" class="mb-3"></v-text-field>
+          <!-- <v-text-field outlined label="Location" :rules="[(v) => !!v || 'Location is required']" v-model="location" placeholder="Enter Hospital Name" class="mb-3"></v-text-field> -->
+          <location/>
+
         </v-col>
         <v-col cols="12" md="6">
           <v-text-field outlined type="number" label="Consultation Fee" :rules="[(v) => !!v || 'Fee field  is required']" v-model="fee" placeholder="Enter Consultation Fee" class="mb-3"></v-text-field>
@@ -27,7 +29,7 @@
         </v-btn>
       </div>
     </v-form>
-  </v-card>
+  </div>
 </template>
 
 <script>

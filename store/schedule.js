@@ -1,5 +1,5 @@
 export const state = () => ({
-    id:null,
+    id: null,
     type: null,
     location: null,
     step: 1,
@@ -19,11 +19,31 @@ export const state = () => ({
     ],
 })
 export const mutations = {
-    SET_SCHEDULE_ID(state,id){
-      state.id = id;
+    reset_schedule(state) {
+        state.id = null;
+        state.type = null;
+        state.location = null;
+        state.step = 1;
+        state.fee = null;
+        state.offer_label = null;
+        state.schedules = [
+            {
+                date: null,
+                dateMenu: false,
+                fromTime: null,
+                fromMenu: false,
+                toTime: null,
+                toMenu: false,
+                duration: null,
+                durationMenu: false,
+            }
+        ];
     },
-    SET_SCHEDULE(state,data){
-      state.schedules=data;
+    SET_SCHEDULE_ID(state, id) {
+        state.id = id;
+    },
+    SET_SCHEDULE(state, data) {
+        state.schedules = data;
     },
     SET_OFFER_LABEL(state, label) {
         state.offer_label = label;

@@ -3,26 +3,15 @@
     <v-row>
       <v-col cols="12">
         <base-card>
-          <v-card-text
-            class="ps-6 d-flex justify-space-between align-center flex-wrap"
-          >
+          <v-card-text class="ps-6 d-flex justify-space-between align-center flex-wrap">
             <div class="my-2">
               <h4 class="">Searching for "Doctors"</h4>
-              <p class="gray--text text--darken-1 mb-0">{{items.length}} results found</p>
+              <p class="gray--text text--darken-1 mb-0">{{ items.length }} results found</p>
             </div>
             <div class="d-flex align-center flex-wrap">
               <div class="grey--text text--darken-1 me-2 my-2">Sort by :</div>
-              <v-select
-                class="border me-5"
-                :items="itemsTwo"
-                label="Relevance"
-                dense
-                v-model="select"
-                @change="relevance('amount')"
-                outlined
-                hide-details
-                flat
-              ></v-select>
+              <v-select class="border me-5" :items="itemsTwo" label="Relevance" dense v-model="select"
+                @change="relevance('amount')" outlined hide-details flat></v-select>
               <div class="grey--text text--darken-1 me-2 my-2">View :</div>
               <v-btn icon>
                 <img class="icon" src="@/assets/images/icons/grid.svg" alt="" />
@@ -36,60 +25,33 @@
       </v-col>
       <v-col cols="12">
         <div class="box-wrapper">
-          <div
-            class="box-overlay"
-            :class="{ open: isSidebar }"
-            @click="isSidebar = !isSidebar"
-          ></div>
+          <div class="box-overlay" :class="{ open: isSidebar }" @click="isSidebar = !isSidebar"></div>
           <div class="box-sidebar pb-3 shadow-sm" :class="{ open: isSidebar }">
             <h5 class="ps-6 mb-6 mt-6">Search</h5>
             <div class="mx-6 pt-3">
-              <v-text-field
-                outlined
-                hide-details
-                v-model="form.query"
-                placeholder="Enter Hospital Name"
-                class="mb-4"
-                @input="handleInput"
-              ></v-text-field>
+              <v-text-field outlined hide-details v-model="form.query" placeholder="Enter Hospital Name" class="mb-4"
+                @input="handleInput"></v-text-field>
             </div>
 
             <v-divider class="mx-6 my-1"></v-divider>
 
             <div class="mx-6 pt-3">
               <h5 class="mb-6">City</h5>
-              <v-autocomplete
-                v-model="form.city"
-                placeholder="Search for doctors,specialties,services,diseases"
-                outlined
-                :items="cities"
-                @change="updateForm"
-                item-text="name"
-                item-value="id"
-              >
+              <v-autocomplete v-model="form.city" placeholder="Search for doctors,specialties,services,diseases"
+                outlined :items="cities" @change="updateForm" item-text="name" item-value="id">
               </v-autocomplete>
 
               <v-divider class="pa-0 ma-0"></v-divider>
               <h5 class="mb-6">Specialization</h5>
-              <v-autocomplete
-                v-model="form.specialization"
-                placeholder="Search for doctors,specialties,services,diseases"
-                outlined
-                :items="specializations"
-                @change="updateForm"
-                item-text="name"
-                item-value="id"
-              >
+              <v-autocomplete v-model="form.specialization"
+                placeholder="Search for doctors,specialties,services,diseases" outlined :items="specializations"
+                @change="updateForm" item-text="name" item-value="id">
               </v-autocomplete>
 
               <v-divider class="pa-0 ma-0"></v-divider>
               <h5 class="mb-6">Gender</h5>
-              <v-radio-group
-                @change="updateForm"
-                :rules="[(v) => !!v || 'This field is required']"
-                v-model="form.gender"
-                inline
-              >
+              <v-radio-group @change="updateForm" :rules="[(v) => !!v || 'This field is required']"
+                v-model="form.gender" inline>
                 <v-radio label="Male" value="male"></v-radio>
                 <v-radio label="Female" value="female"></v-radio>
                 <!-- <v-radio label="Radio Three" value="three"></v-radio> -->
@@ -97,16 +59,9 @@
 
               <v-divider class="pa-0 ma-0"></v-divider>
               <h5 class="pt-3">Consultation Fee</h5>
-              
-              <v-range-slider
-                class="mt-10"
-                :value="[1, 2]"
-                @change="updateForm"
-                min="500"
-                max="6000"
-                v-model="form.consultation_fee"
-                tick-size="1"
-              >
+
+              <v-range-slider class="mt-10" :value="[1, 2]" @change="updateForm" min="100" max="6000"
+                v-model="form.consultation_fee" tick-size="1">
                 <template v-slot:thumb-label="props">
                   {{ season(props.value) }}
                 </template>
@@ -121,40 +76,23 @@
             </div>
             <div class="box-container">
               <v-row>
-                <v-col cols="12">
-                 
-                  <v-data-iterator
-                    v-if="items"
-                    :items="items"
-                    :items-per-page.sync="itemsPerPage"
-                    :page.sync="page"
-                    hide-default-footer
-                  >
+                <v-col cols="8">
+
+                  <v-data-iterator v-if="items" :items="items" :items-per-page.sync="itemsPerPage" :page.sync="page"
+                    hide-default-footer>
                     <template v-slot:default="props">
                       <v-row>
-                        <v-col
-                          v-for="(item, index) in props.items"
-                          :key="index"
-                          cols="12"
-                          sm="12"
-                          md="12"
-                          lg="12"
-                          xl="12"
-                        >
-                          <CardCart
-                            :content-img="item.avatar"
-                            v-if="item"
-                            :content-text="`${item.first_name} ${item.last_name}`"
-                            :amount="item.amount"
-                            :contentRating="item.average_rating"
-                            :counter="item.qty"
-                            :reviewsCount="item.reviews_count"
-                            :speciality="item.doctor_specialities"
-                            :availibility="item.schedules"
-                            @cartRemove="removeCart(item)"
-                            @cartAdd="addCart(item)"
-                          >
+                        <v-col v-for="(item, index) in props.items" :key="index" cols="12" sm="12" md="12" lg="12"
+                          xl="12">
+                          <CardCart :content-img="item.avatar" v-if="item"
+                            :content-text="`${item.first_name} ${item.last_name}`" :amount="item.amount"
+                            :contentRating="item.average_rating" :counter="item.qty" :reviewsCount="item.reviews_count"
+                            :speciality="item.doctor_specialities" :availibility="item.schedules"
+                            @cartRemove="removeCart(item)" @cartAdd="addCart(item)">
                           </CardCart>
+                        </v-col>
+                        <v-col cols="4">
+                          <map></map>
                         </v-col>
                       </v-row>
                     </template>
@@ -166,29 +104,19 @@
                         <span class="mr-4 grey--text">
                           Page {{ page }} of {{ numberOfPages }}
                         </span>
-                        <v-btn
-                          fab
-                          :disabled="page == 1"
-                          small
-                          color="primary"
-                          class="mr-1"
-                          @click="formerPage"
-                        >
+                        <v-btn fab :disabled="page == 1" small color="primary" class="mr-1" @click="formerPage">
                           <v-icon>mdi-chevron-left</v-icon>
                         </v-btn>
-                        <v-btn
-                          fab
-                          :disabled="page == numberOfPages"
-                          small
-                          color="primary"
-                          class="ml-1"
-                          @click="nextPage"
-                        >
+                        <v-btn fab :disabled="page == numberOfPages" small color="primary" class="ml-1"
+                          @click="nextPage">
                           <v-icon>mdi-chevron-right</v-icon>
                         </v-btn>
                       </v-row>
                     </template>
                   </v-data-iterator>
+                </v-col>
+                <v-col cols="4">
+                  <mapComponent v-if="doctorLocationData" :items="doctorLocationData"></mapComponent>
                 </v-col>
               </v-row>
             </div>
@@ -202,10 +130,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import CardCart from '@/components/cartCard/CardCart'
+import mapComponent from "../../components/search/Map"
 import debounce from 'lodash/debounce';
 export default {
   components: {
     CardCart,
+    mapComponent
   },
   data() {
     return {
@@ -242,10 +172,10 @@ export default {
       page: 1,
       itemsPerPage: 8,
       specializations: [],
-      range: [500, 1000, 2000, 3000,4000,5000],
+      range: [100, 1000, 2000, 3000, 4000, 5000],
       itemsTwo: ['Low to High', 'High to Low'],
       select: '',
-      items:[],
+      items: [],
       cartCount: 0,
       filterProductList: [],
       filterProduct: [],
@@ -253,8 +183,8 @@ export default {
       specialization: 0,
       form: {
         query: this.$route.query && this.$route.query.query ? this.$route.query.query : '',
-        city:  this.$route.query && this.$route.query.city ?this.$route.query.city :'',
-        consultation_fee: [500,4000],
+        city: this.$route.query && this.$route.query.city ? this.$route.query.city : '',
+        consultation_fee: [100, 4000],
         specialization: null,
         gender: this.$route.query && this.$route.query.gender ? this.$route.query.gender : ''
       },
@@ -265,6 +195,26 @@ export default {
   },
   computed: {
     ...mapGetters(['getProducts', 'getCategory', 'getRatings']),
+    doctorLocationData() {
+      if (this.items) {
+        const locations = this.items.flatMap(item => item.schedules.flatMap(schedule =>
+          schedule.available && schedule.available.length > 0 ?
+            schedule.available.map(slot => ({
+              last_name: item.last_name,
+              first_name: item.first_name,
+              avatar: item.avatar,
+              location_id: slot.location_id,
+              location_address: slot.location_address,
+              latitude: slot.latitude,
+              longitude: slot.longitude
+            })) :
+            []
+        ));
+
+        // Filter out elements with empty latitude and longitude
+        return locations.filter(location => location !== false && location.latitude !== "" && location.longitude !== "");
+      }
+    },
     doctors() {
       return this.$store.state.doctor
     },
@@ -273,10 +223,10 @@ export default {
     },
   },
   mounted() {
-   this.form.specialization=this.$route.query.spcialization?parseInt(this.$route.query.spcialization):null
+    this.form.specialization = this.$route.query.spcialization ? parseInt(this.$route.query.spcialization) : null
     this.getSpecialization()
     this.updateForm();
-   
+
   },
 
   methods: {
@@ -285,27 +235,27 @@ export default {
       // Call the debounced function with the input value
       this.debouncedSearch(this.form.query);
     },
-    debouncedSearch: debounce(function(query) {
+    debouncedSearch: debounce(function (query) {
       // Your search logic goes here
       // console.log('Searching for:', query);
       this.updateForm();
     }, 500),
     updateForm() {
-      console.log( this.form);
+      console.log(this.form);
       this.$router.push({ path: '/doctor/search', query: this.form })
       this.$axios
-        .get('/doctor-search', {params:this.form})
+        .get('/doctor-search', { params: this.form })
         .then((response) => {
-          
-        this.items=response.data.data
-          
+
+          this.items = response.data.data
+
         })
     },
     getSpecialization() {
       this.$axios.get(`specialization`).then((response) => {
         this.specializations = response.data.data
-       
-        
+
+
       })
     },
     relevance(amount) {
@@ -351,4 +301,3 @@ export default {
   },
 }
 </script>
-

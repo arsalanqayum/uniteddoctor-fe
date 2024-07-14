@@ -44,6 +44,8 @@ export default {
     { src: '~/plugins/toast.js', mode: 'client' },
     { src: '~/plugins/vue-google-places.js', mode: 'client' },
     { src: '~/plugins/jquery.js', ssr: false },
+    { src: '~/plugins/vue2-google-maps.js', mode: 'client' },
+    
     '~/plugins/pusher.js',
     '~/plugins/eventBus.js',
     '~/plugins/axios.js'

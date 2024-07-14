@@ -2,7 +2,7 @@
     <v-container>
         <!-- {{ data.available }} -->
         <!-- {{ data.doctor }} -->
-      <doctor-profile v-if="data && data.doctor" :consultation_fee="data.consultation_fee" :doctor="data.doctor" :location="data.location" :speciality="data.doctor.doctor_specialities[0].specialization"></doctor-profile>
+      <doctor-profile v-if="data && data.doctor" :consultation_fee="data.consultation_fee" :doctor="data.doctor" :location="data.location" :speciality="data.doctor && data.doctor.doctor_specialities && data.doctor.doctor_specialities[0]?data.doctor.doctor_specialities[0].specialization:''"></doctor-profile>
       <available-slots v-if="data && data.available" :available="data.available"></available-slots>
     </v-container>
   </template>

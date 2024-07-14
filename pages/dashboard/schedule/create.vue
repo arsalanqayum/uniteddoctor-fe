@@ -1,38 +1,36 @@
 <template>
-  <v-container class="py-6">
-      <v-row>
-        <v-col cols="12">
-            <div class="box-wrapper">
-                <div class="box-overlay" :class="{'open': isSidebar}"  @click="isSidebar = !isSidebar"></div>
-                <div class="box-sidebar pb-3 shadow-sm" :class="{'open': isSidebar}">
-                     <DashbordSidebar />
-                </div>
-                <div class="box-content">
-                    <div class="d-flex justify-end pa-2 d-block d-md-none">
-                    <v-btn
-                        icon   
-                        @click="isSidebar = !isSidebar"
-                    >
-                        <v-icon dark>
-                            mdi-format-list-bulleted-square
-                        </v-icon>
-                    </v-btn>
+    <v-container class="py-6">
+        <v-row>
+            <v-col cols="12">
+                <div class="box-wrapper">
+                    <div class="box-overlay" :class="{ 'open': isSidebar }" @click="isSidebar = !isSidebar"></div>
+                    <div class="box-sidebar pb-3 shadow-sm" :class="{ 'open': isSidebar }">
+                        <DashbordSidebar />
                     </div>
-                    <div class="box-container">
-                        <div class="d-flex justify-space-between flex-wrap mb-5">
-                           <div class="d-flex align-center ">
-                                <img class="icon mr-3 primary--text" src="@/assets/images/icons/heart_filled.svg" alt="" />
-                                <h2 class="mb-0">Create Schedule</h2>
+                    <div class="box-content">
+                        <div class="d-flex justify-end pa-2 d-block d-md-none">
+                            <v-btn icon @click="isSidebar = !isSidebar">
+                                <v-icon dark>
+                                    mdi-format-list-bulleted-square
+                                </v-icon>
+                            </v-btn>
+                        </div>
+                        <div class="box-container">
+                            <div class="d-flex justify-space-between flex-wrap mb-5">
+                                <div class="d-flex align-center ">
+                                    <img class="icon mr-3 primary--text" src="@/assets/images/icons/heart_filled.svg"
+                                        alt="" />
+                                    <h2 class="mb-0">Create Schedule</h2>
+                                </div>
+
                             </div>
-                            
-                       </div>
-                      <scheduleCreate/>
+                            <scheduleCreate />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </v-col>
-    </v-row>
-  </v-container>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -49,40 +47,40 @@ export default {
         title: 'Appointment List'
     },
     data() {
-        return{
+        return {
             isSidebar: false,
             page: 1,
             itemsPerPage: 5,
-            items: [0,1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20],
-            
+            items: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20],
+
             range: [0, 100, 500, 1000],
             itemsTwo: ['Low to High', 'High to Low', 'Date'],
-            
-            
+
+
         }
     },
     computed: {
-      numberOfPages () {
-        return Math.ceil(this.items.length / this.itemsPerPage)
-      }, 
+        numberOfPages() {
+            return Math.ceil(this.items.length / this.itemsPerPage)
+        },
     },
-    created () {
+    created() {
         window.addEventListener('scroll', this.handleScroll);
+        this.$store.commit("reset_schedule");
     },
-    destroyed () {
+    destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
-        nextPage () {
+        nextPage() {
             if (this.page + 1 <= this.numberOfPages) this.page += 1
         },
-        formerPage () {
+        formerPage() {
             if (this.page - 1 >= 1) this.page -= 1
         },
-        season (val) {
+        season(val) {
             return this.range[val]
         },
     }
 }
 </script>
-

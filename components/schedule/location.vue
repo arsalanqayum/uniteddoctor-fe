@@ -1,45 +1,72 @@
 <template>
-    <v-text-field
-      label="Location"
-      append-icon="search"
-      solo
-      :value="placeName"
-      @click:append="focusInput"
-      readonly
-    >
-      <template v-slot:default="{ attrs }">
-        <vue-google-places
-          ref="placesRef"
-          :api-key="yourApiKey"
-          @placechanged="placeChanged"
-          v-bind="attrs"
-        ></vue-google-places>
-      </template>
-    </v-text-field>
-  </template>
   
-  <script>
-  export default {
-    data: () => ({
-      placeName: '', // To display the selected place name
-      yourApiKey: 'AIzaSyAhqMvzQfbz32EvGw0NuDYjrMIo',
-    }),
-    methods: {
-      focusInput() {
-        this.$refs.placesRef.focusInput();
+      <v-autocomplete outlined v-model="selectedPlace" :items="places" :loading="isLoading" :search-input.sync="search"
+        item-text="name" item-value="id" label="Location" return-object @change="onSelect"></v-autocomplete>
+   
+</template>
+
+<script>
+import { debounce } from 'lodash';
+
+export default {
+  computed: {
+    location: {
+      get() {
+        return this.$store.state.schedule.location
       },
-      placeChanged(place) {
-        this.placeName = place.name; // Update the text field when a place is selected
-        // Handle the selected place object
+      set(value) {
+        this.$store.commit('SET_LOCATION', value)
       },
     },
-  };
-  </script>
-  
-  <style scoped>
-  .vue-google-places-input {
-    border: none;
-    outline: none;
-    /* Any additional styling to match Vuetify's input fields */
+  },
+  data() {
+    return {
+      search: null,
+      isLoading: false,
+      selectedPlace: null,
+      places: [],
+    };
+  },
+  created() {
+    // Bind the debounced method to the Vue instance
+    this.debouncedFetchPlaces = debounce(this.fetchPlaces, 300);
+  },
+  watch: {
+    search(val) {
+      this.isLoading = true; // Move loading indicator inside watch for immediate feedback
+      // Prevent making request if the search is empty or the same as selected
+      if (val && val !== this.selectedPlace) {
+        this.debouncedFetchPlaces(val);
+      } else {
+        this.isLoading = false; // Ensure loading is handled correctly when not fetching
+      }
+    },
+  },
+  methods: {
+    fetchPlaces(searchQuery) {
+      this.$axios.get(`/search-places?query=${encodeURIComponent(searchQuery)}`)
+        .then(response => {
+          console.log(JSON.stringify(response.data.results));
+          this.places = response.data.results.map(place => ({
+            id: place.place_id, // Assuming place_id is still correct for the identifier
+            name: place.name,   // Assuming name is still correct for the place name
+            address: place.formatted_address, // If you need the formatted address
+            rating: place.rating, // If you need the rating
+            latitude: place.geometry.location.lat, // Accessing latitude
+            longitude: place.geometry.location.lng // Accessing longitude
+          }));
+        })
+        .catch(error => {
+          console.error("There was an error fetching the places:", error);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    onSelect(item) {
+      this.location = item;
+      // Handle selection logic here
+    }
   }
-  </style>
+}
+</script>
