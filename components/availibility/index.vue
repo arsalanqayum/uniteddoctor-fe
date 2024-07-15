@@ -33,7 +33,7 @@
     },
     methods:{
       getAvailability(){
-        this.$axios.get(`doctor/availibility/${this.$route.params.id}`).then((response)=>{
+        this.$axios.get(`doctor/availability/${this.$route.params.id}`).then((response)=>{
             console.log(response.data.data.available)
            this.data.doctor = response.data.data.doctor;
            this.data.location = response.data.data.location;

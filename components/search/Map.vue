@@ -54,17 +54,16 @@ export default {
   },
   computed: {
     mapCenter() {
-      let data = this.items.filter(function(item){
-        return item.latitude!==null;
-      })
-      if (this.items.length > 0) {
-        return {
-          lat: parseFloat(data[0].latitude),
-          lng: parseFloat(data[0].longitude)
-        };
-      }
-      return { lat: 0, lng: 0 }; // Default center if no items
+    let validItems = this.items.filter(item => item.latitude !== null && item.latitude !== undefined && item.longitude !== null && item.longitude !== undefined);
+    
+    if (validItems.length > 0) {
+      return {
+        lat: parseFloat(validItems[0].latitude),
+        lng: parseFloat(validItems[0].longitude)
+      };
     }
+    return { lat: 0, lng: 0 }; // Default center if no valid items
+  }
   },
   methods: {
     getPosition(location) {

@@ -1,11 +1,13 @@
 <template>
     <v-container>
         <v-row>
+
             <v-col cols="12" sm="6" md="4" v-for="availability in available" :key="availability.id">
                 <v-card>
                     <v-card-title>
                         <v-row align="center" justify="space-between">
-                            <v-col cols="10">Date: {{ availability.date }}</v-col>
+                            <v-col cols="10">{{ availability.day ? 'Day' : 'Date' }}:{{
+                                availability.day ?`Every week ${availability.day}  upto  ${availability.validUntil}`:availability.date }} </v-col>
                             <v-col cols="2">
                                 <v-btn icon small @click.stop="editAvailability(availability)">
                                     <v-icon>mdi-pencil</v-icon>
@@ -73,11 +75,15 @@ export default {
             alert(`Booking slot: ${slot.start_time} - ${slot.end_time}`);
         },
         editAvailability(availability) {
+            console.log(availability,"dsfdsfdsfdsfsdfds");
             this.selectedAvailability = { ...availability }; // Copy the availability data to the form
             console.log(this.selectedAvailability.id, "ssssssssssssssssss")
             this.$store.commit("SET_SCHEDULE_ID", this.selectedAvailability.id);
             let req = [{
                 date: this.selectedAvailability.date,
+                type:this.selectedAvailability.day?'day':'date',
+                day:this.selectedAvailability.day,
+                validUntil:this.selectedAvailability.validUntil,
                 dateMenu: false,
                 fromTime: this.selectedAvailability.start_time,
                 fromMenu: false,

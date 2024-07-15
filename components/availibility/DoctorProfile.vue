@@ -9,7 +9,7 @@
         </v-avatar>
         <p>Location: {{ location }}</p>
         <p>Consultation Fee: {{ consultation_fee }}</p>
-        <v-btn color="primary" @click="payNow">Pay Now (20% Discount)</v-btn>
+        <!-- <v-btn color="primary" @click="payNow">Pay Now (20% Discount)</v-btn> -->
       </v-card-text>
     </v-card>
   </template>

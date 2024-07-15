@@ -184,7 +184,7 @@ export default {
     },
     methods: {
         getSchedule(){
-         return this.$axios.get('doctor/availibility').then((response)=>{
+         return this.$axios.get('doctor/availability').then((response)=>{
           this.items = response.data.data;
          })
         },
